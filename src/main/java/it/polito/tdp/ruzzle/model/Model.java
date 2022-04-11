@@ -1,7 +1,9 @@
 package it.polito.tdp.ruzzle.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import it.polito.tdp.ruzzle.Ricerca;
 import it.polito.tdp.ruzzle.db.DizionarioDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -44,7 +46,19 @@ public class Model {
 	public final void setStatusText(final String statusText) {
 		this.statusTextProperty().set(statusText);
 	}
-
 	
+	public List<Pos> trovaParola(String parola){
+		Ricerca r=new Ricerca();
+		return r.trovaParola(parola, board);
+	}
+	
+	public List<String> trovaTutte(){
+		List<String> result=new ArrayList<>();
+		DizionarioDAO dao=new DizionarioDAO();
+		for(String parola:dao.listParola())
+			if(this.trovaParola(parola.toUpperCase())!=null)
+				result.add(parola);
+		return result;
+	}
 
 }
